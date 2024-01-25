@@ -49,5 +49,5 @@ async def do_start(message: types.Message, state: FSMContext):
         except Exception as error:
             logger.info(f"Data did not send to admin: {admin}. Error: {error}")
     await message.answer(f"Hello {make_title(full_name)}", parse_mode=ParseMode.MARKDOWN_V2)
-    await message.answer("Welcome to the Random Name Generator!\n\nEnter the number of names you want to generate")
+    await message.answer("Welcome to the <b>Random Name Generator</b>!\n\nEnter the number of names you want to generate 🙂")
     await state.set_state(RandomState.name_amount)
