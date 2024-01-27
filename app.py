@@ -50,10 +50,12 @@ async def aiogram_on_startup_polling(dispatcher: Dispatcher, bot: Bot) -> None:
     await on_startup_notify(bot=bot)
     await set_default_commands(bot=bot)
 
+
 async def aiogram_on_shutdown_polling(dispatcher: Dispatcher, bot: Bot):
     logger.info("Stopping polling")
     await bot.session.close()
     await dispatcher.storage.close()
+
 
 def main():
     from data.config import BOT_TOKEN
@@ -67,6 +69,7 @@ def main():
     dispatcher.startup.register(aiogram_on_startup_polling)
     dispatcher.shutdown.register(aiogram_on_shutdown_polling)
     asyncio.run(dispatcher.start_polling(bot, close_bot_session=True))
+
 
 if __name__ == "__main__":
     try:
