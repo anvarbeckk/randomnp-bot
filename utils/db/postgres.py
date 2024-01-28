@@ -53,16 +53,6 @@ class Database:
         """
         await self.execute(sql, execute=True)
 
-    async def create_table_games(self):
-        sql = """
-        CREATE TABLE IF NOT EXISTS Games (
-        id SERIAL PRIMARY KEY,
-        game_name VARCHAR(255) NOT NULL,
-        names JSONB NOT NULL
-        );
-        """
-        await self.execute(sql, execute=True)
-
     @staticmethod
     def format_args(sql, parameters: dict):
         sql += " AND ".join(
@@ -73,10 +63,6 @@ class Database:
     async def add_user(self, full_name, username, telegram_id):
         sql = "INSERT INTO users (full_name, username, telegram_id) VALUES($1, $2, $3) returning *"
         return await self.execute(sql, full_name, username, telegram_id, fetchrow=True)
-
-    async def add_game(self, game_name, names):
-        sql = "INSERT INTO games (game_name, names) VALUES($1, $2) returning *"
-        return await self.execute(sql, game_name, names, fetchrow=True)
 
     async def select_all_users(self):
         sql = "SELECT * FROM Users"
@@ -100,11 +86,3 @@ class Database:
 
     async def drop_users(self):
         await self.execute("DROP TABLE Users", execute=True)
-
-    async def get_games_list(self):
-        sql = "SELECT DISTINCT game_name FROM Games"
-        return await self.execute(sql, fetch=True)
-
-    async def get_game_data(self, game_name):
-        sql = "SELECT names FROM Games WHERE game_name = $1"
-        return await self.execute(sql, game_name, fetchval=True)
