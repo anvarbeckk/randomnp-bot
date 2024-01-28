@@ -1,7 +1,6 @@
 import asyncio
 from aiogram import Bot, Dispatcher
 from aiogram.client.session.middlewares.request_logging import logger
-from loader import db
 from utils.db.postgres import Database
 
 
@@ -33,9 +32,8 @@ async def database_connected():
     database = Database()
     # Initialize the database
     await database.create()
-    # Create Users and Games tables
+    # Create Users table
     await database.create_table_users()
-    await database.create_table_games()
 
 async def aiogram_on_startup_polling(dispatcher: Dispatcher, bot: Bot) -> None:
     from utils.set_bot_commands import set_default_commands
